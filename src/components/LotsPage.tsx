@@ -3,6 +3,8 @@ import {ItemType, Lot} from "../common/types";
 import {connect, useDispatch} from "react-redux";
 import {toggleFavorites} from "../actions";
 import Page from "../containers/Page";
+import {favorites} from "../reducers/favorites";
+import LotCard from "./LotCard";
 
 type Props = {
     lots: Lot[],
@@ -15,20 +17,13 @@ const LotsPage = ({lots, favorites, showFavorites}: Props) => {
     const onClick = () => dispatch(toggleFavorites(ItemType.LOT))
     const button = <button onClick={onClick}>{showFavorites ? 'Show All' : 'Show Favorite Lots'}</button>
 
-    const items = mapLotsToCards(showFavorites ? lots.filter(lot => lot.lotId in favorites) : lots)
+    const filteredLots = showFavorites ? lots.filter(lot => favorites.includes(lot.lotId)) : lots
+    const lotCards = filteredLots.map(lot => <LotCard key={lot.lotId} lot={lot} />)
 
     return (
-        <Page button={button} items={items}/>
+        <Page button={button} items={lotCards}/>
     )
 }
-
-const mapLotsToCards = (lots: Lot[]) => lots.map(lot => ({
-    image: lot.image,
-    title: lot.address,
-    subtitle: lot.acres,
-    description: lot.description,
-    subdomain: `/lots?id=${lot.lotId}`
-}))
 
 const mapStateToProps = (state: any) => ({
     lots: state.inventory.lots,

@@ -3,6 +3,7 @@
     outline: 2px solid #edebe7;
     padding: 10px;
     margin: 10px;
+    max-width: 500px;
 }
 
 .card img {

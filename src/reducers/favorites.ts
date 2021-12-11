@@ -9,20 +9,21 @@ const DEFAULT_STATE = {
 }
 
 export const favorites = (state = DEFAULT_STATE, action: any) => {
+    console.log(action)
     switch (action.type) {
         case UPDATE_FAVORITES:
             const {itemType, itemAction, id} = action.payload
 
             if (itemAction === ItemAction.ADD) {
                 if (itemType === ItemType.HOME) {
-                    return {...state, home: [...state.homes, id]}
+                    return {...state, homes: [...state.homes, id]}
                 } else if (itemType === ItemType.LOT) {
                     return {...state, lots: [...state.lots, id]}
                 }
 
             } else if (itemAction === ItemAction.REMOVE) {
                 if (itemType === ItemType.HOME) {
-                    return {...state, home: state.homes.filter(tid => tid != id)}
+                    return {...state, homes: state.homes.filter(tid => tid != id)}
                 } else if (itemType === ItemType.LOT) {
                     return {...state, lots: state.lots.filter(tid => tid != id)}
                 }

@@ -1,21 +1,27 @@
 import React from 'react'
-import {GridItem} from "../common/types";
 
 import './styles/Card.css'
-import {Link, useLocation} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 type Props = {
-    item: GridItem
+    id: number
+    image: string
+    title: React.ReactNode
+    subtitle: React.ReactNode
+    description: React.ReactNode
+    link: string
+    isFavorite: boolean
+    addFavorite: () => void
+    removeFavorite: () => void
 }
 
-const Card = ({item}: Props) => {
-    const {image, title, subtitle, description, subdomain} = item
-
-    const location = useLocation()
+const Card = ({image, title, subtitle, description, link, isFavorite, addFavorite, removeFavorite}: Props) => {
+    const button = isFavorite ? <button onClick={() => removeFavorite()}>(-) remove from favorite</button> : <button onClick={() => addFavorite()}>(+) add to favorite</button>
 
     return (
         <div className="card">
-            <Link to={subdomain} state={{backgroundLocation: location}}>
+            {button}
+            <Link to={link}>
                 <img src={image}/>
                 <div>{title}</div>
                 <div>{subtitle}</div>

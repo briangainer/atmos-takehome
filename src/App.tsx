@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, useNavigate, useParams, useLocation} from "react-router-dom";
 import './App.css';
 import HomesPage from "./components/HomesPage";
 import LotsPage from "./components/LotsPage";
@@ -9,9 +9,11 @@ import {API} from "./api";
 import {useDispatch} from "react-redux";
 import {fetchCombinations, fetchHomes, fetchLots} from "./actions";
 import {Combination, Home, Lot} from "./common/types";
+import CompatibleLotsModal from "./components/CompatibleLotsModal";
+import CompatibleHomesModal from "./components/CompatibleHomesModal";
 
 const WelcomePage = () => (
-    <div>
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} >
         <h1>Welcome to Atmos!</h1>
     </div>
 )
@@ -30,10 +32,13 @@ const App = () => {
             <Sidebar/>
             <Routes>
                 <Route path="/" element={<WelcomePage />} />
-                <Route path="/homes" element={<HomesPage/>}/>
-                <Route path="/lots" element={<LotsPage/>}/>
+                <Route path="/homes" element={<HomesPage/>}>
+                    <Route path=":id" element={<CompatibleLotsModal />} />
+                </Route>
+                <Route path="/lots" element={<LotsPage/>}>
+                    <Route path=":id" element={<CompatibleHomesModal />} />
+                </Route>
             </Routes>
-
         </div>
     )
 }

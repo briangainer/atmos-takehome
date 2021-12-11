@@ -25,11 +25,13 @@ export type Combination = {
 }
 
 export type GridItem = {
+    id: number
     image: string
     title: React.ReactNode
     subtitle: React.ReactNode
     description: React.ReactNode
     subdomain: string
+    isFavorite: boolean
 }
 
 export enum ItemType {
