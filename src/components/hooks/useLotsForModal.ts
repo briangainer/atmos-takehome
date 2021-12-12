@@ -12,7 +12,7 @@ export const useLotsForModal = (combinations: Combination[], lots: Lot[], homes:
         navigate('/homes')
     };
 
-    const compatibleIds = combinations.filter(combo => combo.lotId.toString() === id).map(combo => combo.homePlanId)
+    const compatibleIds = combinations.filter(combo => combo.homePlanId.toString() === id).map(combo => combo.lotId)
     const compatibleLots = lots.filter(lot => compatibleIds.includes(lot.lotId))
 
     const title = homes.find(home => home.homePlanId.toString() === id)?.name
