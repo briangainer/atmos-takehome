@@ -1,10 +1,47 @@
-# Getting Started with Create React App
+# My take home project for Atmos
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+View project at live link: https://atmos-take-home.web.app/
 
-## Available Scripts
+## Component flow chart
 
-In the project directory, you can run:
+Here is a basic overview of the component structure. Components in green read/write to the redux store. Each green component has a hook that encapsulates data processing and callback functions that are passed to the presentational components.
+
+Components in white only handle the presentation of data.
+
+![](./public/flowChart.png)
+
+I have a `Card`/`Modal` for `Home` and `Lot` because those objects are presented the same in UI and their fields don't line up exactly. You can think of `HomeCard` and `LotCard` as mappers.
+
+## Redux store
+
+```
+{
+    inventory: {
+        homes: []                 # list of homes
+        lots: []                  # list of lots
+    }
+    combinations: []              # list of home/lot id combos
+    favorites: {
+        homes: []                 # list of home ids that have been favorited
+        lots: []                  # list of lot ids that have been favorited
+        showFavoriteHomes: false  # boolean if favorite home view should be shown
+        showFavoriteLots: false   # boolean if favorite lot view should be shown
+    }
+}
+```
+
+## Other considerations
+
+I thought about updating each `Home` in my store to have a list field of ids that mapped directly to compatible lots 
+(and a field on each `Lot` that mapped to compatible homes). Preprocessing `combinations` would make my component logic simpler.
+
+I was thinking I could fetch my fake API somewhere else instead of the root.
+
+I could handle errors for trying to access missing homes and lots that didn't exist
+
+Having 2 Page and 2 Modal components might seem redundant. There's likely a way to combine them.
+
+---
 
 ### `yarn start`
 
