@@ -1,8 +1,8 @@
 import React from 'react'
-import {Home, ItemAction, ItemType} from "../common/types";
+import {Home, ItemType} from "../common/types";
 import Card from "../containers/Card";
-import {connect, useDispatch} from "react-redux";
-import {updateFavorites} from "../actions";
+import {connect} from "react-redux";
+import {useFavoriteCardCallbacks} from "./hooks/useFavoriteCardCallbacks";
 
 type Props = {
     home: Home
@@ -13,31 +13,31 @@ const HomeCard = ({home, favorites}: Props) => {
     const id = home.homePlanId
     const image = home.image
     const title = <div>{home.name}</div>
-    const subtitle = <div>{home.numBeds}</div>
+    const subtitle = (
+        <div>
+            <div>{`${home.numBeds} bed, ${home.numBaths} bath, ${home.sqft} sqft`}</div>
+            <div>{home.tags.toString()}</div>
+        </div>
+    )
     const description = <div>{home.description}</div>
     const link = `/homes/${id}`
-
-    const dispatch = useDispatch()
-
     const isFavorite = favorites.includes(id)
-    const addFavorite = () => {
-        dispatch(updateFavorites(ItemType.HOME, ItemAction.ADD, id))
-    }
-    const removeFavorite = () => {
-        dispatch(updateFavorites(ItemType.HOME, ItemAction.REMOVE, id))
-    }
 
-    return <Card
-                id={id}
-                image={image}
-                title={title}
-                subtitle={subtitle}
-                description={description}
-                isFavorite={isFavorite}
-                addFavorite={addFavorite}
-                removeFavorite={removeFavorite}
-                link={link}
-            />
+    const {addFavorite, removeFavorite} = useFavoriteCardCallbacks(ItemType.HOME, id)
+
+    return (
+        <Card
+            id={id}
+            image={image}
+            title={title}
+            subtitle={subtitle}
+            description={description}
+            isFavorite={isFavorite}
+            addFavorite={addFavorite}
+            removeFavorite={removeFavorite}
+            link={link}
+        />
+    )
 }
 
 const mapStateToProps = (state: any) => ({

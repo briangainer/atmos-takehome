@@ -11,3 +11,11 @@
     display: block;
     margin: auto;
 }
+
+.card a {
+    text-decoration: none;
+}
+
+.description {
+    color: black;
+}

@@ -1,9 +1,8 @@
 import React from 'react'
+import {Outlet} from "react-router-dom";
 import Grid from "./Grid";
-import {GridItem} from "../common/types";
 
 import './styles/Page.css'
-import {Outlet} from "react-router-dom";
 
 type Props = {
     button: React.ReactNode

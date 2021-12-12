@@ -1,10 +1,9 @@
 import React from 'react'
-import {ItemType, Lot} from "../common/types";
-import {connect, useDispatch} from "react-redux";
-import {toggleFavorites} from "../actions";
+import {Lot} from "../common/types";
+import {connect} from "react-redux";
 import Page from "../containers/Page";
-import {favorites} from "../reducers/favorites";
 import LotCard from "./LotCard";
+import {useLotsForPage} from "./hooks/useLotsForPage";
 
 type Props = {
     lots: Lot[],
@@ -13,16 +12,13 @@ type Props = {
 }
 
 const LotsPage = ({lots, favorites, showFavorites}: Props) => {
-    const dispatch = useDispatch()
-    const onClick = () => dispatch(toggleFavorites(ItemType.LOT))
-    const button = <button onClick={onClick}>{showFavorites ? 'Show All' : 'Show Favorite Lots'}</button>
+    const {filteredLots, onClick} = useLotsForPage(lots, favorites, showFavorites)
 
-    const filteredLots = showFavorites ? lots.filter(lot => favorites.includes(lot.lotId)) : lots
     const lotCards = filteredLots.map(lot => <LotCard key={lot.lotId} lot={lot} />)
 
-    return (
-        <Page button={button} items={lotCards}/>
-    )
+    const button = <button onClick={onClick}>{showFavorites ? 'Show All Lots' : 'Show Favorite Lots'}</button>
+
+    return <Page button={button} items={lotCards}/>
 }
 
 const mapStateToProps = (state: any) => ({

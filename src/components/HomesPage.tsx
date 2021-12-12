@@ -1,9 +1,9 @@
 import React from 'react'
-import {connect, useDispatch} from "react-redux";
-import {Home, ItemType} from "../common/types";
-import {toggleFavorites} from "../actions";
+import {connect} from "react-redux";
+import {Home} from "../common/types";
 import Page from "../containers/Page";
 import HomeCard from "./HomeCard";
+import {useHomesForPage} from "./hooks/useHomesForPage";
 
 type Props = {
     homes: Home[],
@@ -12,16 +12,13 @@ type Props = {
 }
 
 const HomesPage = ({homes, favorites, showFavorites}: Props) => {
-    const dispatch = useDispatch()
-    const onClick = () => dispatch(toggleFavorites(ItemType.HOME))
-    const button = <button onClick={onClick}>{showFavorites ? 'Show All' : 'Show Favorite Homes'}</button>
+    const {filteredHomes, onClick} = useHomesForPage(homes, favorites, showFavorites)
 
-    const filteredHomes = (showFavorites ? homes.filter(home => favorites.includes(home.homePlanId)) : homes)
-    const homeCards = filteredHomes.map(home => <HomeCard key={home.homePlanId} home={home} />)
+    const homeCards = filteredHomes.map(home => <HomeCard key={home.homePlanId} home={home}/>)
 
-    return (
-        <Page button={button} items={homeCards}/>
-    )
+    const button = <button onClick={onClick}>{showFavorites ? 'Show All Homes' : 'Show Favorite Homes'}</button>
+
+    return <Page button={button} items={homeCards}/>
 }
 
 const mapStateToProps = (state: any) => ({

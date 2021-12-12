@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 
-import {Routes, Route, useNavigate, useParams, useLocation} from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
 import './App.css';
 import HomesPage from "./components/HomesPage";
 import LotsPage from "./components/LotsPage";
